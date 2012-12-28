@@ -8,10 +8,8 @@ module Registry
       endpoint = @apis_host + '/accounts.json'
       response = JSON.parse(RestClient.get(endpoint, {:params => options}))
       accounts = response['accounts']
-      puts "Total #{response['page_count']} pages"
       if response['page_count'] > 1
         (2..response['page_count']).each do |page_number|
-          puts "Fetching page #{page_number}..."
           accounts += JSON.parse(RestClient.get(endpoint, {:params => options.merge(:page_number => page_number)}))['accounts']
         end
       end
@@ -35,10 +33,8 @@ module Registry
       response = JSON.parse(RestClient.get endpoint)
       agencies = response['agencies']
       
-      puts "Total #{response['page_count']} pages"
       if response['page_count'] > 1
         (2..response['page_count']).each do |page_number|
-          puts "Fetching page #{page_number}..."
           agencies += JSON.parse(RestClient.get(endpoint, {:params => {:page_number => page_number}}))['agencies']
         end
       end

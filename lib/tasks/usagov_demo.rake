@@ -9,7 +9,7 @@ namespace :demo do
       'treasury',
       'defense',
       'justice',
-      'doi',
+      'interior',
       'usda',
       'commerce',
       'labor',
@@ -22,9 +22,7 @@ namespace :demo do
       'dhs',
       'nasa',
     ]
-    
-    agency_keys = ['nasa']
-    
+        
     Twitter.configure do |config|
       config.consumer_key = ENV['TWITTER_CLIENT_KEY']
       config.consumer_secret = ENV['TWITTER_CLIENT_SECRET']
@@ -62,9 +60,9 @@ namespace :demo do
       puts "  #{registry_accounts.count} accounts should be on the list."
       
       # Remove any excess accounts from the list
-      # (Up to 40 at a time. The Twitter API doesn't like more, 
+      # (Up to 30 at a time. The Twitter API doesn't like more, 
       # and we'll catch the rest when on the next run.)
-      to_remove = (existing_members - registry_accounts).slice(0,40)
+      to_remove = (existing_members - registry_accounts).slice(0,30)
       if to_remove.count > 0
         puts "  Removing #{to_remove.count} accounts from the list..."
         Twitter.list_remove_members(agency_id, to_remove)
@@ -74,11 +72,12 @@ namespace :demo do
       end
       
       # Add any new accounts to the list
-      # (Up to 40 at a time. The Twitter API doesn't like more, 
+      # (Up to 30 at a time. The Twitter API doesn't like more, 
       # and we'll catch the rest when on the next run.)
-      to_add = (registry_accounts - existing_members).slice(0,40)
+      to_add = (registry_accounts - existing_members).slice(0,30)
       if to_add.count > 0
         puts "  Adding #{to_add.count} accounts to the list..."
+        puts "    (#{to_add.join(', ')})"
         Twitter.list_add_members(agency_id, to_add)
         puts "  done adding."
       else
@@ -89,7 +88,7 @@ namespace :demo do
       
       # Spread these out over time to avoid Twitter API rate limits
       puts "Pausing to let the Twitter API catch up..."
-      sleep 2.minutes
+      sleep 1.minute
       puts "proceeding."
     end
   end
