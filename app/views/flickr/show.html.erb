@@ -1,0 +1,16 @@
+<h1>Hello, Flickr!</h1>
+
+<div id="container">
+
+<% @photos.each do |photo| %>
+<div class="item">
+  <a href="<%= photo.page_url %>"><img src="<%= photo.img_url %>"></a>
+  <p><%= photo.title %></p>
+  <p><%= truncate_html(photo.description, :word_boundary => /\S[\.\?\!]/) %></p>
+  <p>by <a href="<%= photo.profile_url %>"><%= photo.ownername %></a></p>
+  <p>on <%= photo.uploaded_at.strftime('%B %d') %></p>
+</div>
+<% end %>
+
+</div> <!-- container -->
+

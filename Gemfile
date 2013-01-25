@@ -9,6 +9,12 @@ gem 'twitter', '~> 4.4.2'
 # For the Registry API
 gem 'rest-client'
 
+# For the Flickr API
+gem 'flickraw-cached'
+
+# Niceties
+gem 'truncate_html', '~> 0.5.1'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
