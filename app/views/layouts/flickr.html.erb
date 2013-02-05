@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Ringsail Flickr Demos</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>Flickr - Registry API Demonstrations</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Registry API Demos</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/flickr/test">Flickr</a></li>
+              <li><a href="https://twitter.com/usagov/lists">Twitter</a></li>
+              <li class="disabled"><a>Youtube</a></li>
+            </ul>
+          </div>
+        </div>
+     </div>
+    </div>
+    <div class="container">
 
 <%= yield %>
 
-</body>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>     
+  </body>
 </html>
