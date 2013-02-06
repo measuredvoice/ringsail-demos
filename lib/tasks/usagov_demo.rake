@@ -5,6 +5,8 @@ namespace :demo do
   task :update_usagov_lists => :environment do
     puts "Updating USAgov lists on Twitter..."
     lists = [
+      {:name => 'education', :options => {:agency_id => 'ed'}},
+      {:name => 'agriculture', :options => {:agency_id => 'usda'}},
       {:name => 'embassies', :options => {:tag => 'embassy'}},
       {:name => 'business', :options => {:tag => 'business'}},
       {:name => 'state', :options => {:agency_id => 'state'}},
