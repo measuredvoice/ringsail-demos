@@ -1,9 +1,9 @@
-<h1>Hello, Flickr!</h1>
+<p><%= @photo_count %> photos from <%= @registry_accounts.count %> Flickr accounts</p>
 
-<div id="container">
+<div class="row" id="photo-container">
 
 <% @photos.each do |photo| %>
-<div class="item">
+<div class="photo-item span4">
   <a href="<%= photo.page_url %>"><img src="<%= photo.img_url %>"></a>
   <p><%= photo.title %></p>
   <p><%= truncate_html(photo.description, :word_boundary => /\S[\.\?\!]/) %></p>
@@ -12,5 +12,20 @@
 </div>
 <% end %>
 
-</div> <!-- container -->
+</div> <!-- photo-container -->
 
+<div class="span4 offset4">
+<div class="pagination">
+  <ul>
+    <% if @prev_page > 0 %>
+    <li><a href="/flickr/test?page=<%= @prev_page %>">Prev</a></li>
+    <li><a href="/flickr/test?page=<%= @prev_page %>"><%= @prev_page %></a></li>
+    <% else %>
+    <li class="disabled"><a href=">">Prev</a></li>
+    <% end %>
+    <li class="active"><a href=""><%= @this_page %></a></li>
+    <li><a href="/flickr/test?page=<%= @next_page %>"><%= @next_page %></a></li>
+    <li><a href="/flickr/test?page=<%= @next_page %>">Next</a></li>
+  </ul>
+</div>
+</div>

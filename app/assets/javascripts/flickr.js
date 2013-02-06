@@ -1,9 +1,11 @@
 $(function(){
-  var $container = $('#container');
+  var $container = $('#photo-container');
   
   $container.imagesLoaded( function(){
     $container.masonry({
-      itemSelector : '.item'
+      itemSelector : '.photo-item',
+      isAnimated: true,
+      columnWidth: 320
     });
   });
 });
