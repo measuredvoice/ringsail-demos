@@ -66,6 +66,30 @@ namespace :demo do
     end
   end
 
+  desc "Update lists on a test account"
+  task :update_test_lists => :environment do
+    puts "Updating test lists on Twitter..."
+    lists = [
+      {:name => 'arbitrary-name-really', :options => {:language => 'Polish'}},
+    ]
+        
+    Twitter.configure do |config|
+      config.consumer_key = ENV['TEST_TWITTER_CLIENT_KEY']
+      config.consumer_secret = ENV['TEST_TWITTER_CLIENT_SECRET']
+      config.oauth_token = ENV['TEST_TWITTER_USER_KEY']
+      config.oauth_token_secret = ENV['TEST_TWITTER_USER_SECRET']
+    end
+            
+    lists.each do |list|
+      update_twitter_list(list)
+      
+      # Spread these out over time to avoid Twitter API rate limits
+      puts "Pausing to let the Twitter API catch up..."
+      sleep 20.seconds
+      puts "proceeding."
+    end
+  end
+
   desc "Update all lists on Twitter"
   task :update_lists => [:update_usagov_lists, :update_gobiernousa_lists] do
     puts "All lists updated."
