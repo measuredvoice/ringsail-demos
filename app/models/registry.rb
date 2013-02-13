@@ -5,15 +5,17 @@ module Registry
     end
     
     def accounts(options={})
-      endpoint = @apis_host + '/accounts.json'
-      response = JSON.parse(RestClient.get(endpoint, {:params => options}))
-      accounts = response['accounts']
-      if response['page_count'] > 1
-        (2..response['page_count']).each do |page_number|
-          accounts += JSON.parse(RestClient.get(endpoint, {:params => options.merge(:page_number => page_number)}))['accounts']
+      Rails.cache.fetch({:type => 'registry_accounts', :options => options}, :expires_in => 1.hour, :race_condition_ttl => 5.minutes) do
+        endpoint = @apis_host + '/accounts.json'
+        response = JSON.parse(RestClient.get(endpoint, {:params => options}))
+        accounts = response['accounts']
+        if response['page_count'] > 1
+          (2..response['page_count']).each do |page_number|
+            accounts += JSON.parse(RestClient.get(endpoint, {:params => options.merge(:page_number => page_number)}))['accounts']
+          end
         end
+        accounts
       end
-      accounts
     end
     
     def full_accounts(options={})

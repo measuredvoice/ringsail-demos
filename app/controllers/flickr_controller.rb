@@ -3,7 +3,7 @@ class FlickrController < ApplicationController
   
   def show
     @photos = []
-    page_size = params[:page_size] || 100
+    page_size = params[:page_size] || 30
     
     account_options = {:service_id => 'flickr'}
     registry = Registry::Client.new

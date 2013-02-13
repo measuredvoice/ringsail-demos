@@ -8,7 +8,7 @@ class FlickrPhoto
     
     @raw_photos = []
     accounts.each do |nsid|
-      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 1.hour) do
+      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 1.hour, :race_condition_ttl => 1.hour) do
         puts "ACCOUNT: #{nsid}"
         if nsid =~ /@/
           begin
@@ -30,7 +30,7 @@ class FlickrPhoto
   end
     
   def self.find_account_id(url, account)
-    Rails.cache.fetch("flickr/account_id/#{account}", :expires_in => 1.day) do
+    Rails.cache.fetch("flickr/account_id/#{account}", :expires_in => 1.day, :race_condition_ttl => 1.hour) do
       set_flickr_auth
       
       logger.info "Looking up account #{account} by url..."
