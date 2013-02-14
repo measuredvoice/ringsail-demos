@@ -14,18 +14,50 @@
 
 </div> <!-- photo-container -->
 
-<div class="span4 offset4">
+<div class="span6 offset3">
 <div class="pagination">
   <ul>
     <% if @prev_page > 0 %>
     <li><a href="/flickr/test?page=<%= @prev_page %>">Prev</a></li>
-    <li><a href="/flickr/test?page=<%= @prev_page %>"><%= @prev_page %></a></li>
     <% else %>
-    <li class="disabled"><a href=">">Prev</a></li>
+    <li class="disabled"><a href="">Prev</a></li>
     <% end %>
-    <li class="active"><a href=""><%= @this_page %></a></li>
-    <li><a href="/flickr/test?page=<%= @next_page %>"><%= @next_page %></a></li>
+    
+    <% if @this_page < 5 %>
+      <% (1..5).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/flickr/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+      <li class="disabled"><a href="">...</a></li>
+    <% elsif @this_page > (@total_pages - 4) %>
+      <li class="disabled"><a href="">...</a></li>
+      <% ((@total_pages - 4)..@total_pages).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/flickr/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+    <% else %>
+      <li class="disabled"><a href="">...</a></li>
+      <% ((@this_page - 2)..(@this_page + 2)).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/flickr/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+      <li class="disabled"><a href="">...</a></li>
+    <% end %>
+    
+    <% if @next_page < @total_pages %>
     <li><a href="/flickr/test?page=<%= @next_page %>">Next</a></li>
+    <% else %>
+    <li class="disabled"><a href="">Next</a></li>
+    <% end %>
   </ul>
 </div>
 </div>

@@ -22,6 +22,7 @@ class FlickrController < ApplicationController
     @this_page = params[:page].present? ? params[:page].to_i : 1
     @next_page = @this_page + 1
     @prev_page = @this_page - 1
+    @total_pages = @photo_count / page_size + 1
     offset = (@this_page - 1) * page_size 
     @photos = all_photos[offset, page_size]
   end

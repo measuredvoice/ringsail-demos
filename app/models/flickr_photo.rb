@@ -8,7 +8,7 @@ class FlickrPhoto
     
     @raw_photos = []
     accounts.each do |nsid|
-      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 1.hour, :race_condition_ttl => 1.hour) do
+      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 6.hours, :race_condition_ttl => 1.hour) do
         puts "ACCOUNT: #{nsid}"
         if nsid =~ /@/
           begin
