@@ -10,7 +10,7 @@ class FlickrController < ApplicationController
     @registry_accounts = registry.accounts(account_options).map do |account|
       # Turn the Flickr URL into a standard ID
       FlickrPhoto.find_account_id(account['service_url'], account['account'])
-    end
+    end.find_all {|x| x.present?}
     
     # registry_accounts = ["51986662@N05", "51009184@N06", "46577594@N04"]
     

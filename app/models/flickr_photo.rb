@@ -8,8 +8,9 @@ class FlickrPhoto
     
     @raw_photos = []
     accounts.each do |nsid|
-      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 6.hours, :race_condition_ttl => 1.hour) do
-        puts "ACCOUNT: #{nsid}"
+      logger.info "ACCOUNT: #{nsid}"
+      @account_photos = Rails.cache.fetch("flickr/recent/#{nsid}/pp/#{options[:per_page]}", :expires_in => 6.hours, :race_condition_ttl => 5.minutes) do
+        logger.info "-- cache miss --"
         if nsid =~ /@/
           begin
             flickr.people.getPublicPhotos(:user_id => nsid, :per_page => options[:per_page], :extras => "description,owner_name,date_upload")
