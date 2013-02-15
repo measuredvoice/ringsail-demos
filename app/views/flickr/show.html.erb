@@ -3,12 +3,23 @@
 <div class="row" id="photo-container">
 
 <% @photos.each do |photo| %>
-<div class="photo-item span4">
+<div class="photo-item">
   <a href="<%= photo.page_url %>"><img src="<%= photo.img_url %>"></a>
-  <p><%= photo.title %></p>
-  <p><%= truncate_html(photo.description, :word_boundary => /\S[\.\?\!]/) %></p>
-  <p>by <a href="<%= photo.profile_url %>"><%= photo.ownername %></a></p>
-  <p>on <%= photo.uploaded_at.strftime('%B %d') %></p>
+  <h5><%= photo.title %></h5>
+  <p class="description"><%= truncate_html(photo.description, :word_boundary => /\S[\.\?\!]/) %></p>
+  <p class="source">by <a href="<%= photo.profile_url %>"><%= photo.ownername %></a> on <%= photo.uploaded_at.strftime('%B %d') %></p>
+  <div class="share-buttons">
+    <div class="tweetbutton">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= photo.page_url %>" data-text="Check out this photo from <%= photo.ownername %> on Flickr" data-via="usagov" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div class="pinitbutton">
+      <a data-pin-config="none" href="//pinterest.com/pin/create/button/?url=<%= photo.page_url %>&amp;media=<%= photo.img_url %>&amp;description=Check out this photo from <%= photo.ownername %> on Flickr" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+    </div>
+    <div class="plusonebutton">
+      <div class="g-plusone" data-size="medium" data-annotation="none" data-href="<%= photo.page_url %>"></div>
+    </div>
+  </div>
 </div>
 <% end %>
 

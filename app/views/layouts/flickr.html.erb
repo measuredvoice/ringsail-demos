@@ -2,10 +2,12 @@
 <html>
   <head>
     <title>Flickr - Registry API Demonstrations</title>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet" type="text/css">
+        <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <%= stylesheet_link_tag    "application", :media => "all" %>
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -23,7 +25,6 @@
             <ul class="nav">
               <li class="active"><a href="/flickr/test">Flickr</a></li>
               <li><a href="https://twitter.com/usagov/lists">Twitter</a></li>
-              <li class="disabled"><a>Youtube</a></li>
             </ul>
           </div>
         </div>
@@ -34,6 +35,14 @@
 <%= yield %>
 
     </div>
-    <script src="/js/bootstrap.min.js"></script>     
+    <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>     
+    <script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+    </script>
+    <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
