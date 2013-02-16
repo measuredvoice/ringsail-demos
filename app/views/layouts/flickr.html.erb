@@ -4,7 +4,6 @@
     <title>Flickr - Registry API Demonstrations</title>
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet" type="text/css">
-        <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -35,14 +34,11 @@
 <%= yield %>
 
     </div>
-    <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>     
-    <script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+      {"parsetags": "explicit"}
     </script>
-    <script src="/js/bootstrap.min.js"></script>
+    <%= javascript_include_tag "application" %>
   </body>
 </html>

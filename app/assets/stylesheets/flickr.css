@@ -13,9 +13,9 @@ html, body {
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
      -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
-  -webkit-transition: .15s ease-in;
-     -moz-transition: .15s ease-in;
-          transition: .15s ease-in;
+  /*-webkit-transition: .15s ease-in;*/
+     /*-moz-transition: .15s ease-in;*/
+          /*transition: .15s ease-in;*/
 }
 
 .photo-item:hover {
@@ -48,4 +48,9 @@ html, body {
 
 .twitter-share-button {
   width:56px !important;
+}
+
+#infscr-loading {
+  position: absolute;
+  bottom: -50px;
 }

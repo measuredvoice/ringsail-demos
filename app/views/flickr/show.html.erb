@@ -1,24 +1,26 @@
 <p><%= @photo_count %> photos from <%= @registry_accounts.count %> Flickr accounts</p>
 
 <div class="row" id="photo-container">
-
 <% @photos.each do |photo| %>
 <div class="photo-item">
   <a href="<%= photo.page_url %>"><img src="<%= photo.img_url %>"></a>
   <h5><%= photo.title %></h5>
   <p class="description"><%= truncate_html(photo.description, :word_boundary => /\S[\.\?\!]/) %></p>
   <p class="source">by <a href="<%= photo.profile_url %>"><%= photo.ownername %></a> on <%= photo.uploaded_at.strftime('%B %d') %></p>
-  <div class="share-buttons">
+  <div class="share-buttons <%= @show_sharers ? 'with-google-twitter' : '' %>">
+    <% if @show_sharers %>
     <div class="tweetbutton">
       <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= photo.page_url %>" data-text="Check out this photo from <%= photo.ownername %> on Flickr" data-via="usagov" data-count="none">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </div>
+    <% end -%>
     <div class="pinitbutton">
       <a data-pin-config="none" href="//pinterest.com/pin/create/button/?url=<%= photo.page_url %>&amp;media=<%= photo.img_url %>&amp;description=Check out this photo from <%= photo.ownername %> on Flickr" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
     </div>
+    <% if @show_sharers %>
     <div class="plusonebutton">
       <div class="g-plusone" data-size="medium" data-annotation="none" data-href="<%= photo.page_url %>"></div>
     </div>
+    <% end -%>
   </div>
 </div>
 <% end %>
@@ -33,7 +35,7 @@
     <% else %>
     <li class="disabled"><a href="">Prev</a></li>
     <% end %>
-    
+
     <% if @this_page < 5 %>
       <% (1..5).each do |page_number| %>
         <% if page_number == @this_page %>
@@ -63,9 +65,9 @@
       <% end %>
       <li class="disabled"><a href="">...</a></li>
     <% end %>
-    
+
     <% if @next_page < @total_pages %>
-    <li><a href="/flickr/test?page=<%= @next_page %>">Next</a></li>
+    <li><a class="next-page" href="/flickr/test?page=<%= @next_page %>">Next</a></li>
     <% else %>
     <li class="disabled"><a href="">Next</a></li>
     <% end %>
