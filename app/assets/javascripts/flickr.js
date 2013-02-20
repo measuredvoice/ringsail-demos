@@ -2,12 +2,13 @@ $(function(){
   var $container = $('#photo-container');
 
   var showShareres = function(event, visible){
-    $target = $(event.target);
+    var $target = $(event.target);
+    var $oItem = $target.find('.g-plusone').eq(0);
     if (visible == true) {
       twttr.widgets.load();
-      gapi.plusone.render($target.find('.g-plusone').get(0), {"size":"medium", "annotation": "none"});
+      gapi.plusone.render($oItem.get(0), {"size":$oItem.data('size'), "annotation":$oItem.data('annotation'), "href":$oItem.data('href')});
     }
-  };
+  }
 
   // hide photo items
   $container.find(".photo-item").css({ opacity: 0 });
