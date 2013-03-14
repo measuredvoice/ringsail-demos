@@ -1,0 +1,83 @@
+<p><%= @video_count %> videos from <%= @registry_accounts.count %> YouTube accounts</p>
+
+<div class="row" id="photo-container">
+<% @videos.each do |video| %>
+<div class="photo-item">
+  <a href="<%= video.page_url %>"><img src="<%= video.img_url %>"></a>
+  <h5><%= video.title %></h5>
+  <p class="description"><%= truncate_html(video.description, :word_boundary => /\S[\.\?\!]/) %></p>
+  <p class="source">by <a href="<%= video.profile_url %>"><%= video.ownername %></a> on <%= video.uploaded_at.strftime('%B %d') %></p>
+  
+  <!-- These three thumbnails might be "animated" as a pseudo-preview
+  <% video.preview_frames.each do |frame_url| %>
+    <img src="<%= frame_url %>">
+  <% end %>
+  -->
+  
+  <div class="share-buttons <%= @show_sharers ? 'with-google-twitter' : '' %>">
+    <% if @show_sharers %>
+    <div class="tweetbutton">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= video.page_url %>" data-text="Check out this video from <%= video.ownername %> on YouTube" data-via="usagov" data-count="none">Tweet</a>
+    </div>
+    <% end -%>
+    <div class="pinitbutton">
+      <a data-pin-config="none" href="//pinterest.com/pin/create/button/?url=<%= video.page_url %>&amp;media=<%= video.img_url %>&amp;description=Check out this video from <%= video.ownername %> on YouTube" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+    </div>
+    <% if @show_sharers %>
+    <div class="plusonebutton">
+      <div class="g-plusone" data-size="medium" data-annotation="none" data-href="<%= video.page_url %>"></div>
+    </div>
+    <% end -%>
+  </div>
+</div>
+<% end %>
+
+</div> <!-- photo-container -->
+
+<div class="span6 offset3">
+<div class="pagination">
+  <ul>
+    <% if @prev_page > 0 %>
+    <li><a href="/youtube/test?page=<%= @prev_page %>">Prev</a></li>
+    <% else %>
+    <li class="disabled"><a href="">Prev</a></li>
+    <% end %>
+
+    <% if @this_page < 5 %>
+      <% (1..5).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/youtube/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+      <li class="disabled"><a href="">...</a></li>
+    <% elsif @this_page > (@total_pages - 4) %>
+      <li class="disabled"><a href="">...</a></li>
+      <% ((@total_pages - 4)..@total_pages).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/youtube/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+    <% else %>
+      <li class="disabled"><a href="">...</a></li>
+      <% ((@this_page - 2)..(@this_page + 2)).each do |page_number| %>
+        <% if page_number == @this_page %>
+          <li class="active"><a href=""><%= @this_page %></a></li>
+        <% else %>
+          <li><a href="/youtube/test?page=<%= page_number %>"><%= page_number %></a></li>
+        <% end %>
+      <% end %>
+      <li class="disabled"><a href="">...</a></li>
+    <% end %>
+
+    <% if @next_page < @total_pages %>
+    <li><a class="next-page" href="/youtube/test?page=<%= @next_page %>">Next</a></li>
+    <% else %>
+    <li class="disabled"><a href="">Next</a></li>
+    <% end %>
+  </ul>
+</div>
+</div>
