@@ -14,7 +14,7 @@ gem 'flickraw-cached'
 
 # For the Youtube API
 # gem 'google-api-client', :require => 'google/api_client'
-gem 'youtube_it' # See https://github.com/kylejginavan/youtube_it
+# gem 'youtube_it' # See https://github.com/kylejginavan/youtube_it
 
 # Niceties
 gem 'truncate_html', '~> 0.5.1'
