@@ -3,7 +3,7 @@
 namespace :demo do
   desc "Update lists on the @USAgov account"
   task :update_usagov_lists => :environment do
-    puts "Updating USAgov lists on Twitter..."
+    # puts "Updating USAgov lists on Twitter..."
     lists = [
       {:name => 'education', :options => {:agency_id => 'ed'}},
       {:name => 'agriculture', :options => {:agency_id => 'usda'}},
@@ -38,15 +38,15 @@ namespace :demo do
       update_twitter_list(list)
       
       # Spread these out over time to avoid Twitter API rate limits
-      puts "Pausing to let the Twitter API catch up..."
+      # puts "Pausing to let the Twitter API catch up..."
       sleep 1.minute
-      puts "proceeding."
+      # puts "proceeding."
     end
   end
   
   desc "Update lists on the @GobiernoUSA account"
   task :update_gobiernousa_lists => :environment do
-    puts "Updating GobiernoUSA lists on Twitter..."
+    # puts "Updating GobiernoUSA lists on Twitter..."
     lists = [
       {:name => 'español', :options => {:tag => 'espanol'}},
     ]
@@ -62,15 +62,15 @@ namespace :demo do
       update_twitter_list(list)
       
       # Spread these out over time to avoid Twitter API rate limits
-      puts "Pausing to let the Twitter API catch up..."
+      # puts "Pausing to let the Twitter API catch up..."
       sleep 1.minute
-      puts "proceeding."
+      # puts "proceeding."
     end
   end
 
   desc "Update lists on a test account"
   task :update_test_lists => :environment do
-    puts "Updating test lists on Twitter..."
+    # puts "Updating test lists on Twitter..."
     lists = [
       {:name => 'arbitrary-name-really', :options => {:language => 'Polish'}},
     ]
@@ -86,37 +86,37 @@ namespace :demo do
       update_twitter_list(list)
       
       # Spread these out over time to avoid Twitter API rate limits
-      puts "Pausing to let the Twitter API catch up..."
+      # puts "Pausing to let the Twitter API catch up..."
       sleep 20.seconds
-      puts "proceeding."
+      # puts "proceeding."
     end
   end
 
   desc "Update all lists on Twitter"
   task :update_lists => [:update_usagov_lists, :update_gobiernousa_lists] do
-    puts "All lists updated."
+    # puts "All lists updated."
   end
 end
 
 def update_twitter_list(list)
-  puts "Updating list '#{list[:name]}'..."
+  # puts "Updating list '#{list[:name]}'..."
   
   # Get the list on Twitter, or create it
   begin
-    puts "  Checking if list '#{list[:name]}' exists..."
+    # puts "  Checking if list '#{list[:name]}' exists..."
     twitter_list = Twitter.list(list[:name])
-    puts "  The list exists."
+    # puts "  The list exists."
   rescue Twitter::Error::NotFound
-    puts "    The list #{list[:name]} does not exist. Creating it..."
+    # puts "    The list #{list[:name]} does not exist. Creating it..."
     twitter_list = Twitter.list_create(list[:name], :description => "")
-    puts "    list created."        
+    # puts "    list created."        
   end
   
   # Get all the current members of the list
   existing_members = Twitter.list_members(list[:name]).map do |member|
     member.screen_name.downcase
   end
-  puts "  #{existing_members.count} accounts are on the list."
+  # puts "  #{existing_members.count} accounts are on the list."
   
   # Get the accounts that should be on the list
   account_options = list[:options].merge(:service_id => 'twitter')
@@ -124,18 +124,18 @@ def update_twitter_list(list)
   registry_accounts = registry.accounts(account_options).map do |account|
     account['account'].downcase
   end
-  puts "  #{registry_accounts.count} accounts should be on the list."
+  # puts "  #{registry_accounts.count} accounts should be on the list."
   
   # Remove any excess accounts from the list
   # (Up to 30 at a time. The Twitter API doesn't like more, 
   # and we'll catch the rest when on the next run.)
   to_remove = (existing_members - registry_accounts).slice(0,30)
   if to_remove.count > 0
-    puts "  Removing #{to_remove.count} accounts from the list..."
+    # puts "  Removing #{to_remove.count} accounts from the list..."
     Twitter.list_remove_members(list[:name], to_remove)
-    puts "  done removing."
+    # puts "  done removing."
   else
-    puts "  No accounts to remove."
+    # puts "  No accounts to remove."
   end
   
   # Add any new accounts to the list
@@ -143,13 +143,13 @@ def update_twitter_list(list)
   # and we'll catch the rest when on the next run.)
   to_add = (registry_accounts - existing_members).slice(0,30)
   if to_add.count > 0
-    puts "  Adding #{to_add.count} accounts to the list..."
-    puts "    (#{to_add.join(', ')})"
+    # puts "  Adding #{to_add.count} accounts to the list..."
+    # puts "    (#{to_add.join(', ')})"
     Twitter.list_add_members(list[:name], to_add)
-    puts "  done adding."
+    # puts "  done adding."
   else
-    puts "  No accounts to add."
+    # puts "  No accounts to add."
   end
   
-  puts "...done."
+  # puts "...done."
 end
